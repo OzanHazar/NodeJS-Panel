@@ -1,0 +1,96 @@
+<form id="useradd" action="/user/add" method="POST">
+        <div class="form-group">
+                <label for="namesurname">Ad-Soyad</label>
+                <input class="form-control" id="username" type="text" placeholder="Ahmet Mahmut ÜNLÜ">
+        </div>
+
+        <div class="form-group">
+                <label for="mailaddress">Email address</label>
+                <input class="form-control" id="usermail" type="email" placeholder="maunlu@lalegultv.com.tr">
+        </div>
+
+        <div class="form-group">
+                <label for="password">Şifre</label>
+                <input class="form-control" id="userpassword" type="password" placeholder="Şifre">
+        </div>
+
+        <!-- Form Row-->
+        <div class="form-row">
+                <!-- Form Group (phone number)-->
+                <div class="form-group col-md-4">
+                        <label class="small mb-1" for="inputPhone">Phone number</label>
+                        <input class="form-control" id="inputPhone" type="tel"
+                                placeholder="Enter your phone number">
+                </div>
+                <!-- Form Group (birthday)-->
+                <div class="form-group col-md-4">
+                        <label class="small mb-1" for="inputBirthday">Birthday</label>
+                        <input class="form-control" id="inputBirthday" type="text" name="birthday"
+                                placeholder="Enter your birthday">
+                </div>
+
+                <div class="form-group col-md-4">
+                        <label class="small mb-1" for="inputLocation">Konum</label>
+                        <input class="form-control" id="inputLocation" type="text" name="location"
+                                placeholder="Enter your location">
+                </div>
+        </div>
+        <div class="form-row">
+                <div class="form-group col-md-4">
+                        <label>Yetki Düzeyi</label>
+                        <div class="custom-control custom-radio">
+                                <input class="custom-control-input" id="admin" type="radio" name="customRadio" required>
+                                <label class="custom-control-label" for="admin">Admin</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                                <input class="custom-control-input" id="regular" type="radio" name="customRadio">
+                                <label class="custom-control-label" for="regular">Normal Kullanıcı</label>
+                        </div>
+                </div>
+                <div class="form-group col-md-8">
+                        <label for="bio">Biyografi</label>
+                        <textarea class="form-control" id="bio" rows="3"></textarea>
+                </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-light btn-icon-split">
+                <span class="icon text-gray-600">
+                        <i class="fas fa-arrow-right"></i>
+                </span>
+                <span class="text">Kullanıcıyı Kaydet</span>
+        </button>
+
+</form>
+
+<script>
+        window.addEventListener("DOMContentLoaded", () => {
+
+                document
+                        .getElementById("useradd")
+                        .addEventListener("submit", (event) => {
+                                event.preventDefault();
+                                const username = event.target.username.value;
+                                const email = event.target.usermail.value;
+                                const password = event.target.userpassword.value;
+                                const customClaim = document.getElementById("admin").checked;
+                                const bio = event.target.bio.value;
+                                const phonenumber = event.target.inputPhone.value;
+                                const location = event.target.inputLocation.value;
+                                const birthday = event.target.inputBirthday.value;
+
+                                return fetch("/user/add", {
+                                        method: "POST",
+                                        headers: {
+                                                Accept: "application/json",
+                                                "Content-Type": "application/json",
+                                                "CSRF-Token": Cookies.get("XSRF-TOKEN"),
+                                        },
+                                        body: JSON.stringify({ username, password, email, customClaim, bio, phonenumber, location, birthday }),
+                                });
+
+
+
+                        });
+        });
+</script>

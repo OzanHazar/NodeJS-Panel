@@ -1,0 +1,197 @@
+{{> _profile_header}}
+
+<!-- Main page content-->
+<div class="container mt-4">
+    <!-- Account page navigation-->
+    {{> _profile_nav}}
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card">
+                <div class="card-header">Profil Fotoğrafı</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    <img class="img-account-profile rounded-circle mb-2" src={{profile_picture_url}} alt=""
+                        style="height: 10rem;">
+                    <!-- Profile picture help block-->
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                    <!-- Profile picture upload button-->
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#imgModal">Yeni
+                        Fotoğraf Yükle</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                    <form>
+                        <!-- Form Row-->
+                        <div class="form-row">
+                            <!-- Form Group (first name)-->
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputFirstName">First name</label>
+                                <input class="form-control form-control-solid" id="inputFirstName" type="text"
+                                    placeholder="Enter your first name" value="{{firstname}}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputLastName">Last name</label>
+                                <input class="form-control form-control-solid" id="inputLastName" type="text"
+                                    placeholder="Enter your last name" value="{{lastname}}">
+                            </div>
+                        </div>
+                        <!-- Form Row        -->
+                        <div class="form-row">
+                            <!-- Form Group (organization name)-->
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputOrgName">Organization name</label>
+                                <input class="form-control form-control-solid" id="inputOrgName" type="text"
+                                    placeholder="Enter your organization name" value="Start Bootstrap">
+                            </div>
+                            <!-- Form Group (location)-->
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputLocation">Location</label>
+                                <input class="form-control form-control-solid" id="inputLocation" type="text"
+                                    placeholder="Enter your location" value="{{konum}}">
+                            </div>
+                        </div>
+                        <!-- Form Group (email address)-->
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            <input class="form-control form-control-solid" id="inputEmailAddress" type="email"
+                                placeholder="Enter your email address" value="{{email}}">
+                        </div>
+                        <!-- Form Row-->
+                        <div class="form-row">
+                            <!-- Form Group (phone number)-->
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputPhone">Phone number</label>
+                                <input class="form-control form-control-solid" id="inputPhone" type="tel"
+                                    placeholder="Enter your phone number" value="{{phonenumber}}">
+                            </div>
+                            <!-- Form Group (birthday)-->
+                            <div class="form-group col-md-6">
+                                <label class="small mb-1" for="inputBirthday">Birthday</label>
+                                <input class="form-control form-control-solid" id="inputBirthday" type="text"
+                                    name="birthday" placeholder="Enter your birthday" value="{{birthday}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Biyografi</label>
+                            <textarea class="form-control form-control-solid" id="exampleFormControlTextarea1" rows="3"
+                                value="{{bio}}"></textarea>
+                        </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="button">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imgModalTitle">Vertically Centered Modal</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                {{!-- <form>
+                    <div class="form-group">
+                        <input type="file" onchange="uploadImage(event)" />
+                    </div>
+                </form> --}}
+                <form enctype="multipart/form-data">
+                    <label>select image : </label>
+                    <input type="file" id="image" accept="image/*"><br><br>
+                </form>
+
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button"
+                    data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" onclick="upload()" data-dismiss="modal" type="button">Save
+                    changes</button>
+                    <button class="btn btn-primary" onclick="passreset()" type="button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
+<script>
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBW-eIzFn17YseudUJYok4X6hSjtLwcZ5Y",
+        authDomain: "mhpapp-23c4e.firebaseapp.com",
+        databaseURL: "https://mhpapp-23c4e-default-rtdb.firebaseio.com",
+        projectId: "mhpapp-23c4e",
+        storageBucket: "mhpapp-23c4e.appspot.com",
+        messagingSenderId: "108412306514",
+        appId: "1:108412306514:web:c62b3b69b1b339e39acb8b",
+        measurementId: "G-6YJ3QR47C8"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    function upload() {
+        //get your select image
+        var image = document.getElementById("image").files[0];
+        //now get your image name
+        var imageName = document.getElementById("inputEmailAddress").value;
+        //firebase storage reference
+        //it is the path where yyour image will store
+        var storageRef = firebase.storage().ref('images/' + imageName);
+        //upload image to selected storage reference
+        console.log("yükleme başladı");
+        var uploadTask = storageRef.put(image);
+        uploadTask.on('state_changed', function (snapshot) {
+            //observe state change events such as progress , pause ,resume
+            //get task progress by including the number of bytes uploaded and total
+            //number of bytes
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("upload is " + progress + " done");
+        }, function (error) {
+            //handle error here
+            console.log(error.message);
+        }, function () {
+            //handle successful uploads on complete
+
+            uploadTask.snapshot.ref.getDownloadURL().then(function (downlaodURL) {
+                //get your upload image url here...
+                console.log(downlaodURL);
+                return fetch("/user/updateimage", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        "CSRF-Token": Cookies.get("XSRF-TOKEN"),
+                    },
+                    body: JSON.stringify({ downlaodURL }),
+                });
+            });
+        });
+    }
+
+    function passreset() {
+        
+        var emailAddress = "ozanhazarerdogan@outlook.com";
+
+        firebase.auth().sendPasswordResetEmail(emailAddress).then(function () {
+            // Email sent.
+            console.log("ok");
+        }).catch(function (error) {
+            // An error happened.
+            console.log(error);
+        });
+    }
+
+</script>
