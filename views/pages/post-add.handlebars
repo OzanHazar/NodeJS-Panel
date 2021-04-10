@@ -1,4 +1,4 @@
-<form>
+<form id="postadd">
     <div class="form-group"><label for="postTitle">Başlık</label><input class="form-control form-control-solid"
             id="postTitle" type="text" placeholder="Başlık">
     </div>
@@ -9,10 +9,35 @@
     <div class="form-group"><label for="postBody">Gönderi İçerik</label><textarea class="form-control" id="postBody"
             rows="3"></textarea></div>
 
-    <a href="#" class="btn btn-light btn-icon-split">
+    <button type="submit" class="btn btn-light btn-icon-split">
         <span class="icon text-gray-600">
             <i class="fas fa-arrow-right"></i>
         </span>
         <span class="text">Gönderi Kaydet</span>
-    </a>
+    </button>
+
 </form>
+
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+
+        document
+            .getElementById("postadd")
+            .addEventListener("submit", (event) => {
+                event.preventDefault();
+                const title = event.target.postTitle.value;
+                const body = event.target.postSummary.value;
+                const bodysum = event.target.postBody.value;
+
+                return fetch("/post/add", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        "CSRF-Token": Cookies.get("XSRF-TOKEN"),
+                    },
+                    body: JSON.stringify({ title , body , bodysum }),
+                });
+            });
+    });
+</script>
