@@ -40,17 +40,29 @@ module.exports.getPostAdd = (req, res, next) => {
 
 // https://url/post/add, method:POST
 module.exports.postPostAdd = (req, res, next) => {
-    let sessionCookie = req.cookies.session || "";
-    
+    const sessionCookie = req.cookies.session || "";
+
+    const title = req.body.title;
+    const body = req.body.body;
+    const bodysum = req.body.bodysum;
+
     firebase.admin.auth().verifySessionCookie(sessionCookie, true /** checkRevoked */)
         .then((decodedClaims) => {
-            if(decodedClaims.admin){
+            if((decodedClaims.admin === true) || (decodedClaims.regularUser === true)){
                 console.log("İşlem Yetkiniz Var.");
+                firebase.db.collection('haberler').doc().set({
+                    title: title,
+                    body: body,
+                    bodysummary: bodysum,
+                    time: firebase.admin.firestore.Timestamp.fromDate(new Date()),
+                    author: decodedClaims.uid,
+                }).then(() => {
+                    console.log("ok");
+                });
             }else{
                 console.log("İşlem Yetkiniz Yok.");
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             res.redirect("user/login");
         });
 };
