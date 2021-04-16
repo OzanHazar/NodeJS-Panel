@@ -128,9 +128,9 @@ module.exports.getUserProfilePass = function (req, res) {
                     .auth()
                     .updateUser(decodedClaims.uid, {})
                     .then((userRecord) => {
-
                         console.log('Successfully updated user', userRecord.toJSON());
-                    })
+                    });
+
                 res.render("pages/profile-pass", {
                     title: "Profilim",
                     displayName: decodedClaims.name,
