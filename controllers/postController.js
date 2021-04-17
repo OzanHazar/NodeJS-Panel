@@ -15,7 +15,7 @@ module.exports.getPostList = (req, res, next) => {
             });
         })
         .catch((error) => {
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 };
 
@@ -34,7 +34,7 @@ module.exports.getPostAdd = (req, res, next) => {
             });
         })
         .catch((error) => {
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 };
 
@@ -63,7 +63,7 @@ module.exports.postPostAdd = (req, res, next) => {
                 console.log("İşlem Yetkiniz Yok.");
             }
         }).catch((error) => {
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 };
 
@@ -87,7 +87,7 @@ module.exports.getPostApprove = (req, res, next) => {
 
         })
         .catch((error) => {
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 };
 
@@ -104,6 +104,6 @@ module.exports.postPostApprove = (req, res, next) => {
             }
         })
         .catch((error) => {
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 };

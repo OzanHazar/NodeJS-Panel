@@ -35,7 +35,7 @@ module.exports.getIndex = (req, res, next) => {
             post = [];
         })
         .catch((error) => {
-            res.redirect("user/login");
+            res.redirect("/user/login");
             console.log(error);
         });
 };

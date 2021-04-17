@@ -44,7 +44,7 @@ module.exports.getUserList = (req, res) => {
             }
         }).catch((error) => {
             console.log(error);
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 
 };
@@ -73,7 +73,7 @@ module.exports.postUpdateImage = (req, res) => {
         })
         .catch((error) => {
             console.log(error);
-            res.redirect("user/login");
+            res.redirect("/user/login");
         });
 };
 
