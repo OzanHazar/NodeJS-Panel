@@ -50,7 +50,7 @@ module.exports.postPostAdd = (req, res, next) => {
         .then((decodedClaims) => {
             if((decodedClaims.admin === true) || (decodedClaims.regularUser === true)){
                 console.log("İşlem Yetkiniz Var.");
-                firebase.db.collection('haberler').doc().set({
+                firebase.db.collection('onaylanacakhaberler').doc().set({
                     title: title,
                     body: body,
                     bodysummary: bodysum,
